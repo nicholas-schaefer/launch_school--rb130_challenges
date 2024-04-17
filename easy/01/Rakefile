@@ -1,0 +1,21 @@
+require "rake/testtask"
+
+task :default => :test
+
+desc "say hello world"
+task :hello do
+  puts "hello world"
+end
+
+desc 'Run tests'
+
+Rake::TestTask.new(:test) do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList['test/**/*_test.rb']
+end
+
+# desc 'Run tests'
+# task :test do
+#   sh 'ruby ./test/triangle_challenge_test.rb'
+# end
