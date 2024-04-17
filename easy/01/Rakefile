@@ -14,8 +14,3 @@ Rake::TestTask.new(:test) do |t|
   t.libs << "lib"
   t.test_files = FileList['test/**/*_test.rb']
 end
-
-# desc 'Run tests'
-# task :test do
-#   sh 'ruby ./test/triangle_challenge_test.rb'
-# end
