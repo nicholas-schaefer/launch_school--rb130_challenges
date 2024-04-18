@@ -1,0 +1,15 @@
+require 'rake/testtask'
+
+task :default => :test
+
+desc "Greet the day"
+task :hello do
+  puts "hello world!"
+end
+
+desc "run all the tests!"
+Rake::TestTask.new(:test) do |t|
+  t.libs << "test"
+  t.libs << "lib"
+  t.test_files = FileList['test/**/*_test.rb']
+end
