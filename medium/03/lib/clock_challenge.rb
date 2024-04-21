@@ -21,25 +21,32 @@ end
   end
 
   def ==(other)
-    total_minutes == other.total_minutes
+    create_time_string == other.create_time_string
+    # total_minutes == other.total_minutes
   end
 
   def +(minutes)
+    minutes = under1440(minutes)
     self.total_minutes += minutes
     create_time_string
   end
 
   def -(minutes)
+    minutes = under1440(minutes)
     self.total_minutes -= minutes
+    if self.total_minutes.negative?
+      self.total_minutes = 1440 + self.total_minutes
+    end
     create_time_string
   end
 
-  private
+  # private
   def create_time_string
     create_clock_string = Proc.new do |total_minutes|
       raw_hours_minutes = total_minutes.divmod(60)
       unformatted_hours, unformatted_minutes = raw_hours_minutes
-      unformatted_hours = unformatted_hours >= 24 ? unformatted_hours - 24 : unformatted_hours
+      unformatted_hours = under24(unformatted_hours)
+      unformatted_minutes = under1440(unformatted_minutes)
       formatted_hours = "%02d" % unformatted_hours
       formatted_minutes = "%02d" % unformatted_minutes
       clock_array = [formatted_hours, formatted_minutes]
@@ -47,14 +54,34 @@ end
     end
     create_clock_string.call(total_minutes)
   end
+
+  def under24(hours)
+    until hours < 24 do
+      hours -= 24
+    end
+    hours
+  end
+
+  def under1440(minutes)
+    until minutes < 1440 do
+      minutes -= 1440
+    end
+    minutes
+  end
 end
-# clock = Clock.at(11, 5)
-# y = clock - 10
-# p y
-# puts Clock.at(15, 30)
-# p Clock.at(15, 30) == Clock.at(14, 90)
-# a = Clock.at(10, 6)
-# b = Clock.at(10, 6)
 
-# p a == b
+clock1 = Clock.at(0, 30) - 60
+clock2 = Clock.at(23, 30)
+p clock1
+p clock2
+p clock2.create_time_string
+# p "helo"
+# puts clock1 = Clock.at(0, 30) - 60
+# clock2 = Clock.at(23, 30)
+# p"---"
+# # p clock1
+# # # p clock1.total_minutes
+# # p clock2.total_minutes
 
+# # p clock1
+# p clock2
