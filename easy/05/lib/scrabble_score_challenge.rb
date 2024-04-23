@@ -28,3 +28,4 @@ class Scrabble
     end
   end
 end
+
