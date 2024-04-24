@@ -17,3 +17,7 @@ end
 task :app do
   sh "ruby lib/meetup_challenge.rb"
 end
+
+task :rubocop do
+  sh 'rubocop lib/meetup_challenge.rb -d'
+end
